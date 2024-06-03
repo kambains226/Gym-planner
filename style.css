@@ -4,14 +4,16 @@
 }
 :root{
     --heading-font:  "Bangers", system-ui;
-    --background-color: #A9DEF9;
-    --button-color: #D0F4DE;
+    --background-colour: #A9DEF9;
+    --button-colour: #D0F4DE;
     --button-font: "Sen", sans-serif;
+    --plus-colour: #384152;
+    --add-colour:#E4C1F9;
 }
 
 /* colour palette  link https://coolors.co/ff99c8-fcf6bd-d0f4de-a9def9-e4c1f9 */
 body {
-    background-color: var(--background-color);
+    background-color: var(--background-colour);
 }
 
 main{
@@ -28,10 +30,12 @@ h2{
     padding-bottom: 5em;
 }
 .workout{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 2em;
+    
+    margin-top: 2em;
 }
 button{
 
@@ -39,13 +43,42 @@ button{
     /* border-radius: 45%; */
     height: 4em;
     width: 15em;
-    background-color: var(--button-color);
+    background-color: var(--button-colour);
     font-family: var(--button-font);
     font-size: 1.2em;
 
 }
 
 /* create a plus in css  */
+.add{
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    
+}
+#addButton{
+    height: 3.5em;
+    width: 3.5em;
+    background-color: var(--add-colour);
+}
+.line1  {
+    position: absolute;
+    width: 1.5em;
+    height: .1em;
+    background-color: var(--plus-colour);
+    top:50% ;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
 
-
-
+.line2{
+    position: absolute;
+    width: .1em;
+    height: 1.5em;
+    background-color: var(--plus-colour);
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+   
+}

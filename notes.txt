@@ -1,0 +1,3 @@
+needs to add the plus button in js 
+
+make a minute button to get rid of exercises
