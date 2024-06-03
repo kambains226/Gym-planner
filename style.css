@@ -3,12 +3,15 @@
     margin: 0;
 }
 :root{
-    --heading-font:  "Pacifico", cursive;
+    --heading-font:  "Bangers", system-ui;
+    --background-color: #A9DEF9;
+    --button-color: #D0F4DE;
+    --button-font: "Sen", sans-serif;
 }
 
 /* colour palette  link https://coolors.co/ff99c8-fcf6bd-d0f4de-a9def9-e4c1f9 */
 body {
-    background-color: #e4c1f9;
+    background-color: var(--background-color);
 }
 
 main{
@@ -20,8 +23,9 @@ main{
 h2{
     padding-top: 3em;
     text-align: center;
-    font-size: 2.5em;
+    font-size: 3em;
     font-family: var(--heading-font);
+    padding-bottom: 5em;
 }
 .workout{
     display: flex;
@@ -32,4 +36,16 @@ h2{
 button{
 
     justify-content: center;
+    /* border-radius: 45%; */
+    height: 4em;
+    width: 15em;
+    background-color: var(--button-color);
+    font-family: var(--button-font);
+    font-size: 1.2em;
+
 }
+
+/* create a plus in css  */
+
+
+
