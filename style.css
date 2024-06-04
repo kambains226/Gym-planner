@@ -10,7 +10,9 @@
     --plus-colour: #384152;
     --add-colour:#D0F4DE;
     --minus-colour: #FF99C8;
-    
+    --workout-colour: white;
+    --textarea-colour: #a8aaad69;
+    --border :2px solid black;
 }
 
 /* colour palette  link https://coolors.co/ff99c8-fcf6bd-d0f4de-a9def9-e4c1f9 */
@@ -29,7 +31,7 @@ h2{
     text-align: center;
     font-size: 3em;
     font-family: var(--heading-font);
-    padding-bottom: 5em;
+    padding-bottom: 2em;
 }
 .workout{
     position: relative;
@@ -38,6 +40,26 @@ h2{
     align-items: center;
     
     margin-top: 2em;
+}
+.workoutLayout{
+    background-color: var(--workout-colour);
+    height: 25em;
+    width: 45em;
+    margin: auto;
+    border-radius: 5%;
+    border: var(--border);
+}
+.exerciseName{
+    resize: none;
+    width: 12em;
+    border: none;
+    background-color: var(--textarea-colour);
+    left: 35%;
+    position: relative;
+    margin-top: 2em;
+    font-size: 2.5em;
+    height: 1.2em;
+    border: var(--border);
 }
 button{
 

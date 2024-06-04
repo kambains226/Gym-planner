@@ -8,18 +8,27 @@
 
 
 // when the recordWorkout button is clicked, the recordWorkout function is called
+
+
 const workoutButton = document.querySelector("#exercise");
+
+const workoutLayout = document.createElement("div");
+workoutLayout.classList.add("workoutLayout");
 function recordWorkout(){
     workoutButton.style.display = "none";
     //create exercise to add 
-    const workout = document.createElement("div");
-    workout.classList.add("workout");
+    document.body.appendChild(workoutLayout);
 
-    //add exercise button
-    addButton();
-    removeButton();
+    //add and minus  exercise button
+    let exerciseName=document.createElement("textarea");
+    exerciseName.maxLength = 20;
+    exerciseName.classList.add("exerciseName");
+    workoutLayout.appendChild(exerciseName);
+    
+    // addButton();
+    // removeButton();
 
-    workoutButton.style.display = "inline-block";
+    
 
 
 }
@@ -41,7 +50,7 @@ function addButton(){
     addDiv.appendChild(line1);
     addDiv.appendChild(line2);
 
-    document.body.appendChild(addDiv);
+    workoutLayout.appendChild(addDiv);
 
 }
 //creates the remove button
@@ -60,7 +69,7 @@ function removeButton(){
     minusDiv.appendChild(minusButton);
     minusDiv.appendChild(line1);
  
-    document.body.appendChild(minusDiv);
+    workoutLayout.appendChild(minusDiv);
 
 }
 
