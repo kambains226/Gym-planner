@@ -3,12 +3,14 @@
     margin: 0;
 }
 :root{
-    --heading-font:  "Bangers", system-ui;
+    --heading-font:  "Permanent Marker", cursive;
     --background-colour: #A9DEF9;
-    --button-colour: #D0F4DE;
+    --button-colour: #E4C1F9;
     --button-font: "Sen", sans-serif;
     --plus-colour: #384152;
-    --add-colour:#E4C1F9;
+    --add-colour:#D0F4DE;
+    --minus-colour: #FF99C8;
+    
 }
 
 /* colour palette  link https://coolors.co/ff99c8-fcf6bd-d0f4de-a9def9-e4c1f9 */
@@ -57,10 +59,25 @@ button{
     display: flex;
     
 }
-#addButton{
-    height: 3.5em;
-    width: 3.5em;
+.minus{
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    
+
+}
+
+.button{
+    height: 2.5em;
+    width: 2.5em;
+    
+}
+.add button{
     background-color: var(--add-colour);
+}
+.minus button{
+    background-color: var(--minus-colour);
 }
 .line1  {
     position: absolute;
