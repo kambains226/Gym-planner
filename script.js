@@ -11,12 +11,17 @@ let setNum = 0;
 
 const workoutButton = document.querySelector("#exercise");
 
-const workoutLayout = document.createElement("div");
 
-const table = document.createElement("table"); //table for information
-workoutLayout.classList.add("workoutLayout");
+const addDiv = document.querySelector(".workout");
+const parentOfAddDiv = addDiv.parentElement;
+ //table for information
+
 function recordWorkout(){
-    workoutButton.style.display = "none";
+    
+    const table = document.createElement("table");
+    const workoutLayout = document.createElement("div");
+    workoutLayout.classList.add("workoutLayout");
+    workoutButton.disabled = true;
     let exerciseName=document.createElement("textarea");
     exerciseName.maxLength = 20;
     exerciseName.placeholder = "Enter exercise";
@@ -31,26 +36,28 @@ function recordWorkout(){
             let exerciseLabel = document.createElement("label");
             exerciseLabel.textContent = exerciseName.value;
             
-            document.body.appendChild(workoutLayout);
+            parentOfAddDiv.insertBefore(workoutLayout,addDiv); //gets  the parent of add div and buts the workoutlayout before that element
             exerciseLabel.classList.add("exerciseLabel");
             workoutLayout.appendChild(exerciseLabel);
             
-            exerciseTable();
+            exerciseTable(table,workoutLayout);
             //creates the table of infomration
             for (let i = 0; i < 3; i++){
-                addRow();
+                addRow(table);
             }
-            addButton();
-            removeButton();
+            addButton(table,workoutLayout);
+            removeButton(table,workoutLayout);
+            workoutButton.disabled = false;
             
             
         }
+        
     });
     
 
     //add and minus  exercise button
     
-    // workoutLayout.appendChild(exerciseName);
+    
     
     
 
@@ -59,10 +66,10 @@ function recordWorkout(){
 
 }
 
-
-
+const minusButton = document.createElement("button");
 // creates the putton to add an exercise
-function addButton(){
+function addButton(table,layout){
+    
     const addDiv = document.createElement("div");
     addDiv.classList.add("add");
 
@@ -78,15 +85,18 @@ function addButton(){
     addDiv.appendChild(line1);
     addDiv.appendChild(line2);
 
-    workoutLayout.appendChild(addDiv);
+    layout.appendChild(addDiv);
 
+    addButton.addEventListener("click",function(){
+        addRow(table);
+    });
 }
 //creates the remove button
-function removeButton(){
+function removeButton(table,layout){
     const minusDiv = document.createElement("div");
     minusDiv.classList.add("minus");
 
-    const minusButton = document.createElement("button");
+    
     minusButton.classList.add("button");
     
     const line1 = document.createElement("div");
@@ -97,20 +107,45 @@ function removeButton(){
     minusDiv.appendChild(minusButton);
     minusDiv.appendChild(line1);
  
-    workoutLayout.appendChild(minusDiv);
+    layout.appendChild(minusDiv);
+    
+    minusButton.addEventListener("click",function(){
+        // let table =document.querySelector(".information");
+        let lastrow = table.querySelector("tr:last-child");
+
+        try{
+            table.removeChild(lastrow);
+
+            setNum--;
+            
+            //if setnum is 0 make it so you can't press the remove button 
+            if (setNum == 1){
+                throw "error";
+            }
+            
+        }
+        catch(error){
+            
+            minusButton.disabled = true;
+        }
+        
+        
+
+
+    });
 
 }
 
-const exerciseTable = () => 
+const exerciseTable = (table,layout) => 
     {
-      
+        
         table.classList.add("information");
         const HtableRow = document.createElement("tr");//the plus button will add a row minuts wil delete if there is information
     
         
         
         table.appendChild(HtableRow);
-        workoutLayout.appendChild(table);
+        layout.appendChild(table);
         //adds the default rows to the table
         const sets = document.createElement("th");
         const reps =document.createElement("th");
@@ -134,7 +169,7 @@ const exerciseTable = () =>
         HtableRow.appendChild(record);
         HtableRow.appendChild(notes);
 
-        workoutLayout.appendChild(table);
+        layout.appendChild(table);
 
 
     } 
@@ -142,8 +177,9 @@ const exerciseTable = () =>
 
 //adds inpute 
 
-function addRow(){
+function addRow(table){
     setNum++;
+    minusButton.disabled = false;
     const tableRow = document.createElement("tr");
     const sets = document.createElement("td");
     const reps = document.createElement("td");
@@ -153,8 +189,8 @@ function addRow(){
     const notes = document.createElement("td");
 
     sets.textContent = setNum ;
-    previous.textContent ='10 x10kg';
-    record.textContent = '10 x15kg';
+    previous.textContent ='-';
+    record.textContent = '-';
     //create the input boxes to go in the table 
     const repInput = document.createElement("input");
     const kgInput = document.createElement("input");

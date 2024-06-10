@@ -3,3 +3,7 @@ needs to add the plus button in js
 make a minute button to get rid of exercises
 
 
+do the add rows 
+remove rows 
+
+need to fix the creating a new table problem 

@@ -10,6 +10,7 @@
     --plus-colour: #384152;
     --add-colour:#D0F4DE;
     --minus-colour: #FF99C8;
+    --disabled-colour: #f4cee0a1;
     --workout-colour: rgba(255, 247, 247, 0.934);
     --textarea-colour: #a8aaad2c;
     --border :2px solid black;
@@ -48,7 +49,14 @@ h2{
     border: var(--border);
     position: relative;
     text-align: center;
+    animation : fadeInX 1s ease;
+
+
 }
+#exercise {
+    margin: 2em;
+}
+
 .exerciseName{
     resize: none;
     width: 12em;
@@ -62,9 +70,11 @@ h2{
     border-bottom: var(--border);
     display: flex;
     justify-content: center;
+    
 
     
 }
+
 
 /* is the value of exercisename  */
 .exerciseLabel{
@@ -77,6 +87,10 @@ h2{
     transform: translateX(-50%);
 
 
+}
+
+.information{
+    animation : fadeIn 2s ease;
 }
 .information tr th {
     font-family: var(--button-font);
@@ -160,6 +174,9 @@ button{
 }
 .minus button{
     background-color: var(--minus-colour);
+}
+.minus button:disabled{
+    background-color: var(--disabled-colour);
 }
 .line1  {
     position: absolute;
