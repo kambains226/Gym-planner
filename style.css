@@ -42,10 +42,9 @@ h2{
 }
 .workoutLayout{
     background-color: var(--workout-colour);
-    /* height: 25em; */
     width: 45em;
     margin: auto;
-    /* border-radius: 5%; */
+    margin-bottom: 8em;
     border: var(--border);
     position: relative;
     text-align: center;
@@ -87,6 +86,9 @@ h2{
     transform: translateX(-50%);
 
 
+}
+.workoutTable{
+    margin-bottom: 5em;
 }
 
 .information{

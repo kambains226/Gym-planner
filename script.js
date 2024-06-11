@@ -3,7 +3,7 @@
 
 //global variables 
 // variables to keep count of sets
-let setNum = 0;
+// let setNum = 0;
 
 
 // when the recordWorkout button is clicked, the recordWorkout function is called
@@ -19,6 +19,7 @@ const parentOfAddDiv = addDiv.parentElement;
 function recordWorkout(){
     
     const table = document.createElement("table");
+    
     const workoutLayout = document.createElement("div");
     workoutLayout.classList.add("workoutLayout");
     workoutButton.disabled = true;
@@ -31,6 +32,7 @@ function recordWorkout(){
     exerciseName.addEventListener('keypress', function(event){
         //occurs when the user pressses enter 
         if (event.key === "Enter"){
+
             exerciseName.style.display = "none"; // makes the text area disappear
             //creates a lable of the exercise name 
             let exerciseLabel = document.createElement("label");
@@ -40,13 +42,17 @@ function recordWorkout(){
             exerciseLabel.classList.add("exerciseLabel");
             workoutLayout.appendChild(exerciseLabel);
             
-            exerciseTable(table,workoutLayout);
+            exerciseTable(table,workoutLayout); // creates the table of exercise
+            const minusButton = document.createElement("button"); // creates the minus button
+
+            let setNum = 0;
             //creates the table of infomration
             for (let i = 0; i < 3; i++){
-                addRow(table);
+                addRow(table,minusButton,setNum); 
             }
-            addButton(table,workoutLayout);
-            removeButton(table,workoutLayout);
+            addButton(table,workoutLayout,minusButton,setNum);
+            
+            removeButton(table,workoutLayout,minusButton,setNum);
             workoutButton.disabled = false;
             
             
@@ -66,9 +72,9 @@ function recordWorkout(){
 
 }
 
-const minusButton = document.createElement("button");
+
 // creates the putton to add an exercise
-function addButton(table,layout){
+function addButton(table,layout,button,num){
     
     const addDiv = document.createElement("div");
     addDiv.classList.add("add");
@@ -88,28 +94,29 @@ function addButton(table,layout){
     layout.appendChild(addDiv);
 
     addButton.addEventListener("click",function(){
-        addRow(table);
+        addRow(table,button,num);
     });
 }
 //creates the remove button
-function removeButton(table,layout){
+function removeButton(table,layout,button,setNum){
+    
     const minusDiv = document.createElement("div");
     minusDiv.classList.add("minus");
 
     
-    minusButton.classList.add("button");
+    button.classList.add("button");
     
     const line1 = document.createElement("div");
     
     line1.classList.add("line1");
     
     
-    minusDiv.appendChild(minusButton);
+    minusDiv.appendChild(button);
     minusDiv.appendChild(line1);
  
     layout.appendChild(minusDiv);
     
-    minusButton.addEventListener("click",function(){
+    button.addEventListener("click",function(){
         // let table =document.querySelector(".information");
         let lastrow = table.querySelector("tr:last-child");
 
@@ -126,7 +133,7 @@ function removeButton(table,layout){
         }
         catch(error){
             
-            minusButton.disabled = true;
+            button.disabled = true;
         }
         
         
@@ -177,9 +184,9 @@ const exerciseTable = (table,layout) =>
 
 //adds inpute 
 
-function addRow(table){
+function addRow(table,button,setNum){
     setNum++;
-    minusButton.disabled = false;
+    button.disabled = false;
     const tableRow = document.createElement("tr");
     const sets = document.createElement("td");
     const reps = document.createElement("td");
@@ -230,5 +237,14 @@ function addRow(table){
     });
 
 }
+
+class Exercise{
+    constructor(setNum){
+        this.num = setNum
+        
+    }
+}
+
+
 
 
