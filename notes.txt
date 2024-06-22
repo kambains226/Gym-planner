@@ -7,3 +7,17 @@ do the add rows
 remove rows 
 
 need to fix the creating a new table problem 
+
+
+
+how to get the kg from local storage
+
+first add the kg to local storage
+then get the kg from local storage
+
+
+when adding the record text content check if the there is a kg in local storage
+if there is a kg in local storage
+make record text content the kg 
+
+
