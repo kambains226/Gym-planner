@@ -14,12 +14,15 @@ const parentOfAddDiv = addDiv.parentElement;
 
 class Exercise{
     constructor(setNum){
+
         this.num = setNum
         //maybe create a varaible ot keep track of how many times the variable has been called 
         this.localStorageContents = [];
         this.sortedkeyValues = [];
         this.test= []
         this.sortedLocal = {}
+        this.match= false;
+        this.disabled= false;
     }
 
     exercise(){
@@ -176,9 +179,9 @@ class Exercise{
 
     addRow(table,button){
         this.num++;
-        
-        let kgcode; // gets the kg weight from local storage
-        
+        this.match = false;
+        this.preCode; // gets the kg weight from local storage
+        this.recCode;
         button.disabled = false;
         const tableRow = document.createElement("tr");
         const sets = document.createElement("td");
@@ -222,59 +225,70 @@ class Exercise{
         table.appendChild(tableRow);
         const setValues = document.querySelectorAll('.sets'); // gets all the set values
         let key;
-        // this.sortedLocalStorage();
+        //will need use this to make it so other exercies work 
         this.sortsLocalStorage();
-        console.log(this.localStorage)
+        
         
         for (let i =0; i < setValues.length; i++){ //maybe try using set values.length
         
-           
             
-           
+            
+            
             
             for(key in this.sortedLocal){
-             
             
-            // console.log(key);
+            
+            
+            console.log(key);
             let keyName= key.replace(/[0-9]/g, '')//used to get rid of the numbers from the key and is the exercise name
             let keyNumMatch= key.match(/[0-9]/g)  //gets the number from the key and matches it to check if its true
 
             let keyNum = keyNumMatch ? keyNumMatch.join('') : null; //number in the key for local storage to match the set num 
-           
+            console.log(keyNum);
             
+            // console.log(keyName,'keynanme');
             
-            
-            if (exerciseName.textContent == keyName)
+            if (exerciseName.textContent == keyName && keyNum == setValues[i].textContent)
                 // maybe loop through local storage for all the ones keys with tri in it 
                 {
+                    this.match =true;
                     
                     // use the keynum to match with correct set 
                    
                     console.log(keyNum,setValues[i].textContent);
                     
-                if (keyNum == setValues[i].textContent){
+                    
+                    
                         
-                        record.textContent =this.sortedLocal[key];
+                    // previous.textContent =setValues[i].textContent;
+                    // previous.textContent =this.sortedLocal[key];
+                    
+                    this.displayTextContent(previous,key,this.match)
+                    
+                
+                    
+                    
+                
+                    
+                }
+                
+            else if (!this.match) {
+                
+                this.displayTextContent(previous,key,this.match)
                         
-                    }
-                
-                
+                       
                     
                     
                 }
-            else{
-                    if(record.textContent == ''){
-                        record.textContent = '-';
-                    }
-                    
-                }
+            
             }
         }
+
         
         
         
 
-        previous.textContent ='-';
+        record.textContent ='-';
 
         
         
@@ -306,19 +320,27 @@ class Exercise{
         
         //loops through all the users input boxes and saves the value to local storage
         for(let i =0; i < setValues.length; i++){
-            kgs[i].addEventListener('input', function(){
-                kgcode = exerciseName.textContent + setValues[i].textContent;
-                // kgs[i].id=kgcode; //sets the kg input boxes an id 
+            // kgs[i].addEventListener('input', function(){
+            //     preCode = exerciseName.textContent + setValues[i].textContent;
+            //     // kgs[i].id=kgcode; //sets the kg input boxes an id 
                 
-                if(repsInput[i].value && kgs[i].value){
-                    localStorage.setItem(kgcode,repsInput[i].value+'x'+kgs[i].value+'kg');
-                    console.log(localStorage.getItem(kgcode));
+            //     if(repsInput[i].value && kgs[i].value){
+            //         localStorage.setItem(preCode,repsInput[i].value+'x'+kgs[i].value+'kg');
+                    
                    
-                }
+            //     }
                 
                 
-                
-            });
+            
+            // });
+            // changes local storage on both inputs 
+            kgs[i].addEventListener('input', () => this.keys(exerciseName.textContent, setValues[i].textContent, repsInput[i].value, kgs[i].value,'prev'));
+            repsInput[i].addEventListener('input', () => this.keys(exerciseName.textContent, setValues[i].textContent, repsInput[i].value, kgs[i].value,'prev'));
+            
+
+            //for the record inputs     
+            kgs[i].addEventListener('input', () => this.keys(exerciseName.textContent, setValues[i].textContent, repsInput[i].value, kgs[i].value,'record'));
+            repsInput[i].addEventListener('input', () => this.keys(exerciseName.textContent, setValues[i].textContent, repsInput[i].value, kgs[i].value,'record'));
 
 
         }
@@ -331,22 +353,57 @@ class Exercise{
         
        
     }
-    // loop through the local storage and get the correct key
-    // keys(reps,kgs){
-    //     array.addEventListener('input', function(){
-    //     kgcode = this.exerciseName.textContent + setValues[i].textContent +'KG';
-    //     localStorage.setItem(kgcode,kgs[i].value);
+    // loop through the local storage and get the correct key 
+    keys(exerciseName,set,rep,kg,mode){
+        if(!self.disabled){
+            const startingcode =this.getPreviousRecord();
+        }
+        consolg.log(startingcode)
         
+        if(mode == 'prev'){
+            this.preCode = exerciseName + set;
+            
+
+            
+            console.log(recordCheck);
+                    // kgs[i].id=kgcode; //sets the kg input boxes an id 
+                
+            if(rep && kg){
+                    localStorage.setItem(this.preCode,rep+'x'+kg+'kg');
+                    
+                   
+                }
+            }      
+        else if(mode == 'record'){
+
+            this.recCode = exerciseName + set + 'REC';
+            if(rep && kg){
+
+               
+               
+            }
+        }
         
-            
-            
-            
-    //     });
+    }
+    getPreviousRecord(){
+        this.disabled = true;
 
-    // }
+        
+        return this.sortedLocal(this.preCode)
+    }
+    displayTextContent(text,key,match){
+        
+        if(match ==true){
+            text.textContent =this.sortedLocal[key];
+        }
+        else{
+            text.textContent = '-';
+        }
+    }
 
-   
     sortsLocalStorage(){
+        
+        
         for (let i = 0; i < localStorage.length; i++){
             let key = localStorage.key(i);
             let data = localStorage.getItem(key);
@@ -364,8 +421,9 @@ class Exercise{
             
             
             localStorage.setItem(Object.keys(this.sortedLocal)[i],this.sortedLocal[Object.keys(this.sortedLocal)[i]]);
-            console.log(Object.keys(this.sortedLocal)[i],this.sortedLocal[Object.keys(this.sortedLocal)[i]]);
+            // console.log(Object.keys(this.sortedLocal)[i],this.sortedLocal[Object.keys(this.sortedLocal)[i]]);
         }
+        
         
     }
 }
