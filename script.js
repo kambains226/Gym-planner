@@ -23,6 +23,7 @@ class Exercise{
         this.sortedLocal = {}
         this.match= false;
         this.disabled= false;
+        this.startingcode=0;
     }
 
     exercise(){
@@ -239,12 +240,12 @@ class Exercise{
             
             
             
-            console.log(key);
+            
             let keyName= key.replace(/[0-9]/g, '')//used to get rid of the numbers from the key and is the exercise name
             let keyNumMatch= key.match(/[0-9]/g)  //gets the number from the key and matches it to check if its true
 
             let keyNum = keyNumMatch ? keyNumMatch.join('') : null; //number in the key for local storage to match the set num 
-            console.log(keyNum);
+           
             
             // console.log(keyName,'keynanme');
             
@@ -262,9 +263,10 @@ class Exercise{
                         
                     // previous.textContent =setValues[i].textContent;
                     // previous.textContent =this.sortedLocal[key];
-                    
+                    console.log(key);
                     this.displayTextContent(previous,key,this.match)
-                    
+                    this.displayTextContent(record,key,this.match)//adds the record text cotent 
+                    // need to make sure it only changes if it gets beaten
                 
                     
                     
@@ -288,7 +290,7 @@ class Exercise{
         
         
 
-        record.textContent ='-';
+        
 
         
         
@@ -355,17 +357,15 @@ class Exercise{
     }
     // loop through the local storage and get the correct key 
     keys(exerciseName,set,rep,kg,mode){
-        if(!self.disabled){
-            const startingcode =this.getPreviousRecord();
-        }
-        consolg.log(startingcode)
+        
+        
         
         if(mode == 'prev'){
             this.preCode = exerciseName + set;
             
 
             
-            console.log(recordCheck);
+            
                     // kgs[i].id=kgcode; //sets the kg input boxes an id 
                 
             if(rep && kg){
@@ -375,10 +375,18 @@ class Exercise{
                 }
             }      
         else if(mode == 'record'){
-
+            
+            this.startingcode = !this.disabled ? this.getPreviousRecord() : this.startingcode;
+            
             this.recCode = exerciseName + set + 'REC';
+            //get the starting code kg part
+            let kgCode = this.startingcode.split('x')[1];
+            let oldKg =this.numberCheck(kgCode);
+            //checks to see if the previous code has been beaten and if it has will be updated 
             if(rep && kg){
-
+                if(kg > oldKg){
+                    localStorage.setItem(this.recCode,rep+'x'+kg+'kg');
+                }
                
                
             }
@@ -386,10 +394,11 @@ class Exercise{
         
     }
     getPreviousRecord(){
+        console.log('fish')
         this.disabled = true;
 
-        
-        return this.sortedLocal(this.preCode)
+       
+        return this.sortedLocal[this.preCode];
     }
     displayTextContent(text,key,match){
         
@@ -399,6 +408,20 @@ class Exercise{
         else{
             text.textContent = '-';
         }
+    }
+    numberCheck(string){
+        let kgCheck='';
+        for (let i = 0; i < string.length; i++){
+            if (isNaN(string[i])){
+                break;
+                
+            }
+            else{
+                kgCheck += string[i];
+                return kgCheck;
+            }
+        }
+        
     }
 
     sortsLocalStorage(){
