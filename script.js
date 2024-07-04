@@ -73,7 +73,7 @@ class Exercise{
     });
     }
     addButton(table,layout,button){
-        console.log(this.num);
+       
         const addDiv = document.createElement("div");
         addDiv.classList.add("add");
 
@@ -96,7 +96,7 @@ class Exercise{
         });
 }
     removeButton(table,layout,button){
-        console.log(this.num);
+       
         const minusDiv = document.createElement("div");
         minusDiv.classList.add("minus");
     
@@ -229,7 +229,7 @@ class Exercise{
         //will need use this to make it so other exercies work 
         this.sortsLocalStorage();
         
-        
+   
         for (let i =0; i < setValues.length; i++){ //maybe try using set values.length
         
             
@@ -237,7 +237,7 @@ class Exercise{
             
             
             for(key in this.sortedLocal){
-            
+            let recordkeyname;
             
             
             
@@ -245,27 +245,31 @@ class Exercise{
             let keyNumMatch= key.match(/[0-9]/g)  //gets the number from the key and matches it to check if its true
 
             let keyNum = keyNumMatch ? keyNumMatch.join('') : null; //number in the key for local storage to match the set num 
-           
+            if(keyName.includes('REC')){
+                recordkeyname =keyName.replace('REC','');
+            }
             
             // console.log(keyName,'keynanme');
             
-            if (exerciseName.textContent == keyName && keyNum == setValues[i].textContent)
+            if ((exerciseName.textContent == keyName || exerciseName.textContent==recordkeyname) && keyNum == setValues[i].textContent)
                 // maybe loop through local storage for all the ones keys with tri in it 
                 {
+
                     this.match =true;
-                    
+                    if (key.includes('REC')){
+                        this.displayTextContent(record,key,this.match)//adds the record text cotent 
+                        continue;
+                    }
                     // use the keynum to match with correct set 
                    
-                    console.log(keyNum,setValues[i].textContent);
+                    // console.log(keyNum,setValues[i].textContent);
                     
                     
                     
-                        
-                    // previous.textContent =setValues[i].textContent;
-                    // previous.textContent =this.sortedLocal[key];
-                    console.log(key);
+                 
+                    
                     this.displayTextContent(previous,key,this.match)
-                    this.displayTextContent(record,key,this.match)//adds the record text cotent 
+                    
                     // need to make sure it only changes if it gets beaten
                 
                     
@@ -367,12 +371,14 @@ class Exercise{
             
             
                     // kgs[i].id=kgcode; //sets the kg input boxes an id 
-                
-            if(rep && kg){
-                    localStorage.setItem(this.preCode,rep+'x'+kg+'kg');
+                    if(kg && rep){
+                        localStorage.setItem(this.preCode,rep+'x'+kg+'kg');
+                        console.log(localStorage.getItem(this.preCode));
+                    }
                     
-                   
-                }
+                    
+                //    return localStorage.getItem(this.preCode)
+                
             }      
         else if(mode == 'record'){
             
@@ -380,12 +386,16 @@ class Exercise{
             
             this.recCode = exerciseName + set + 'REC';
             //get the starting code kg part
+            let repCode =this.startingcode.split('x')[0];
             let kgCode = this.startingcode.split('x')[1];
+            
             let oldKg =this.numberCheck(kgCode);
             //checks to see if the previous code has been beaten and if it has will be updated 
-            if(rep && kg){
-                if(kg > oldKg){
+            
+            if(rep && kg && rep >0){
+                if(kg > oldKg && rep > repCode){
                     localStorage.setItem(this.recCode,rep+'x'+kg+'kg');
+                    
                 }
                
                
@@ -394,7 +404,7 @@ class Exercise{
         
     }
     getPreviousRecord(){
-        console.log('fish')
+        
         this.disabled = true;
 
        
@@ -404,6 +414,7 @@ class Exercise{
         
         if(match ==true){
             text.textContent =this.sortedLocal[key];
+            
         }
         else{
             text.textContent = '-';
