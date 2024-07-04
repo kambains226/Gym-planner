@@ -267,8 +267,10 @@ class Exercise{
                     
                     
                  
-                    
-                    this.displayTextContent(previous,key,this.match)
+                    else{
+                        this.displayTextContent(previous,key,this.match)
+                    }
+                   
                     
                     // need to make sure it only changes if it gets beaten
                 
