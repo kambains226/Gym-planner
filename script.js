@@ -192,7 +192,7 @@ class Exercise{
         const record = document.createElement("td");
         const notes = document.createElement("td");
         
-        let exerciseName = document.querySelector('.exerciseLabel');
+        this.exerciseName = document.querySelector('.exerciseLabel');
         sets.textContent = this.num ;
         
         // if statment to put the previous and record in place 
@@ -224,13 +224,13 @@ class Exercise{
         tableRow.appendChild(notes);
         
         table.appendChild(tableRow);
-        const setValues = document.querySelectorAll('.sets'); // gets all the set values
+        this.setValues = document.querySelectorAll('.sets'); // gets all the set values
         let key;
         //will need use this to make it so other exercies work 
         this.sortsLocalStorage();
         
    
-        for (let i =0; i < setValues.length; i++){ //maybe try using set values.length
+        for (let i =0; i < this.setValues.length; i++){ //maybe try using set values.length
         
             
             
@@ -251,7 +251,7 @@ class Exercise{
             
             // console.log(keyName,'keynanme');
             
-            if ((exerciseName.textContent == keyName || exerciseName.textContent==recordkeyname) && keyNum == setValues[i].textContent)
+            if ((this.exerciseName.textContent == keyName || this.exerciseName.textContent==recordkeyname) && keyNum == this.setValues[i].textContent)
                 // maybe loop through local storage for all the ones keys with tri in it 
                 {
 
@@ -269,6 +269,7 @@ class Exercise{
                  
                     else{
                         this.displayTextContent(previous,key,this.match)
+                        
                     }
                    
                     
@@ -283,7 +284,8 @@ class Exercise{
             else if (!this.match) {
                 
                 this.displayTextContent(previous,key,this.match)
-                        
+                this.displayTextContent(record,key,this.match)
+                continue;
                        
                     
                     
@@ -318,8 +320,8 @@ class Exercise{
         });
         const repsInput = document.querySelectorAll('.repInput') // gets all the rep input boxes
         const kgs = document.querySelectorAll('.kgInput') // gets all the kg input boxes
-        
-        
+        const notesText = document.querySelectorAll('.notes');//get all the notes input boxes 
+
         
         
            
@@ -327,7 +329,7 @@ class Exercise{
         
         
         //loops through all the users input boxes and saves the value to local storage
-        for(let i =0; i < setValues.length; i++){
+        for(let i =0; i < this.setValues.length; i++){
             // kgs[i].addEventListener('input', function(){
             //     preCode = exerciseName.textContent + setValues[i].textContent;
             //     // kgs[i].id=kgcode; //sets the kg input boxes an id 
@@ -342,18 +344,20 @@ class Exercise{
             
             // });
             // changes local storage on both inputs 
-            kgs[i].addEventListener('input', () => this.keys(exerciseName.textContent, setValues[i].textContent, repsInput[i].value, kgs[i].value,'prev'));
-            repsInput[i].addEventListener('input', () => this.keys(exerciseName.textContent, setValues[i].textContent, repsInput[i].value, kgs[i].value,'prev'));
+            kgs[i].addEventListener('input', () => this.keys(this.setValues[i].textContent, repsInput[i].value, kgs[i].value,'prev'));
+            repsInput[i].addEventListener('input', () => this.keys( this.setValues[i].textContent, repsInput[i].value, kgs[i].value,'prev'));
             
 
             //for the record inputs     
-            kgs[i].addEventListener('input', () => this.keys(exerciseName.textContent, setValues[i].textContent, repsInput[i].value, kgs[i].value,'record'));
-            repsInput[i].addEventListener('input', () => this.keys(exerciseName.textContent, setValues[i].textContent, repsInput[i].value, kgs[i].value,'record'));
+            kgs[i].addEventListener('input', () => this.keys( this.setValues[i].textContent, repsInput[i].value, kgs[i].value,'record'));
+            repsInput[i].addEventListener('input', () => this.keys( this.setValues[i].textContent, repsInput[i].value, kgs[i].value,'record'));
 
+            notesText[i].addEventListener('input', () => this.notesUpdate(this.setValues[i].textContent,notesText[i]));
+            //need to assign the notes the value if there is one 
 
         }
         
-
+       
         
 
 
@@ -362,12 +366,12 @@ class Exercise{
        
     }
     // loop through the local storage and get the correct key 
-    keys(exerciseName,set,rep,kg,mode){
+    keys(set,rep,kg,mode){
         
         
         
         if(mode == 'prev'){
-            this.preCode = exerciseName + set;
+            this.preCode = this.exerciseName.textContent + set;
             
 
             
@@ -375,7 +379,7 @@ class Exercise{
                     // kgs[i].id=kgcode; //sets the kg input boxes an id 
                     if(kg && rep){
                         localStorage.setItem(this.preCode,rep+'x'+kg+'kg');
-                        console.log(localStorage.getItem(this.preCode));
+                        
                     }
                     
                     
@@ -383,20 +387,30 @@ class Exercise{
                 
             }      
         else if(mode == 'record'){
-            
-            this.startingcode = !this.disabled ? this.getPreviousRecord() : this.startingcode;
-            
-            this.recCode = exerciseName + set + 'REC';
+            // assigns them the value to the starting record so it can be used to change it later 
+            this.startingcodeKg = !this.disabled ? this.getPreviousRecord('prev') : this.startingcodeKg;
+            this.startingcodeRep = !this.disabled ? this.getPreviousRecord('record') : this.startingcodeRep;
+            this.recCode = this.exerciseName.textContent + set + 'REC';
+            let repCode;
             //get the starting code kg part
-            let repCode =this.startingcode.split('x')[0];
-            let kgCode = this.startingcode.split('x')[1];
+
+            
+            if(this.startingcodeRep){
+                repCode =this.startingcodeRep.split('x')[0];
+            }
+            
+            console.log(repCode,rep);
+            
+            let kgCode = this.startingcodeKg.split('x')[1];
             
             let oldKg =this.numberCheck(kgCode);
             //checks to see if the previous code has been beaten and if it has will be updated 
             
             if(rep && kg && rep >0){
-                if(kg > oldKg && rep > repCode){
+                
+                if(kg >= oldKg || rep >= repCode){
                     localStorage.setItem(this.recCode,rep+'x'+kg+'kg');
+                    console.log(localStorage.getItem(this.recCode));
                     
                 }
                
@@ -404,13 +418,26 @@ class Exercise{
             }
         }
         
-    }
-    getPreviousRecord(){
         
+    }
+    getPreviousRecord(mode){
+        
+        
+        if(mode== 'prev'){
+            console.log(this.sortedLocal[this.preCode])
+            return this.sortedLocal[this.preCode];
+        }
+        else if(mode== 'record'){
+            
+           
+            return this.sortedLocal[this.recCode];
+
+            
+        }
         this.disabled = true;
 
        
-        return this.sortedLocal[this.preCode];
+       
     }
     displayTextContent(text,key,match){
         
@@ -436,7 +463,12 @@ class Exercise{
         }
         
     }
-
+    notesUpdate(set,note){
+        this.notesCode = this.exerciseName.textContent + set + 'NOTES';
+        console.log(this.notesCode);
+        localStorage.setItem(this.notesCode,note.value);
+        console.log(localStorage.getItem(this.notesCode));
+    }
     sortsLocalStorage(){
         
         
