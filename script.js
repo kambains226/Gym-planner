@@ -238,7 +238,8 @@ class Exercise{
             
             for(key in this.sortedLocal){
             let recordkeyname;
-            
+            let noteskeyname;
+            // console.log(key);
             
             
             let keyName= key.replace(/[0-9]/g, '')//used to get rid of the numbers from the key and is the exercise name
@@ -248,15 +249,18 @@ class Exercise{
             if(keyName.includes('REC')){
                 recordkeyname =keyName.replace('REC','');
             }
+            else if(keyName){
+                noteskeyname= keyName.replace('NOTES','')
+            }
+            console.log(keyName,'keynanme');
             
-            // console.log(keyName,'keynanme');
-            
-            if ((this.exerciseName.textContent == keyName || this.exerciseName.textContent==recordkeyname) && keyNum == this.setValues[i].textContent)
+            if ((this.exerciseName.textContent == keyName || this.exerciseName.textContent==recordkeyname || this.exerciseName.textContent==noteskeyname) && keyNum == this.setValues[i].textContent)
                 // maybe loop through local storage for all the ones keys with tri in it 
                 {
 
                     this.match =true;
                     if (key.includes('REC')){
+                        console.log('REC');
                         this.displayTextContent(record,key,this.match)//adds the record text cotent 
                         continue;
                     }
@@ -266,7 +270,11 @@ class Exercise{
                     
                     
                     
-                 
+                    else if(key.includes('NOTES')){
+                        console.log('notes')
+                        
+                        this.displayTextContent(notesInput,key,this.match)
+                    }
                     else{
                         this.displayTextContent(previous,key,this.match)
                         
@@ -330,19 +338,10 @@ class Exercise{
         
         //loops through all the users input boxes and saves the value to local storage
         for(let i =0; i < this.setValues.length; i++){
-            // kgs[i].addEventListener('input', function(){
-            //     preCode = exerciseName.textContent + setValues[i].textContent;
-            //     // kgs[i].id=kgcode; //sets the kg input boxes an id 
-                
-            //     if(repsInput[i].value && kgs[i].value){
-            //         localStorage.setItem(preCode,repsInput[i].value+'x'+kgs[i].value+'kg');
-                    
-                   
-            //     }
-                
+            
                 
             
-            // });
+           
             // changes local storage on both inputs 
             kgs[i].addEventListener('input', () => this.keys(this.setValues[i].textContent, repsInput[i].value, kgs[i].value,'prev'));
             repsInput[i].addEventListener('input', () => this.keys( this.setValues[i].textContent, repsInput[i].value, kgs[i].value,'prev'));
@@ -449,6 +448,7 @@ class Exercise{
             text.textContent = '-';
         }
     }
+    
     numberCheck(string){
         let kgCheck='';
         for (let i = 0; i < string.length; i++){
