@@ -24,6 +24,8 @@ class Exercise{
         this.match= false;
         this.disabled= false;
         this.startingcode=0;
+
+        this.usedkeys = [];
     }
 
     exercise(){
@@ -229,14 +231,17 @@ class Exercise{
         //will need use this to make it so other exercies work 
         this.sortsLocalStorage();
         
+        // going to be used to keep track of  what numbers have been used
+        // append the keys to this array which have been used 
    
         for (let i =0; i < this.setValues.length; i++){ //maybe try using set values.length
-        
+            
             
             
             
             
             for(key in this.sortedLocal){
+            
             let recordkeyname;
             let noteskeyname;
             // console.log(key);
@@ -246,23 +251,41 @@ class Exercise{
             let keyNumMatch= key.match(/[0-9]/g)  //gets the number from the key and matches it to check if its true
 
             let keyNum = keyNumMatch ? keyNumMatch.join('') : null; //number in the key for local storage to match the set num 
+            
+            console.log(keyNum);
+            console.log(this.exerciseName.textContent);
+            if (!this.usedkeys.includes(keyNum) && (this.exerciseName.textContent == keyName || this.exerciseName.textContent==recordkeyname || this.exerciseName.textContent==noteskeyname)) {
+                this.usedkeys.push(keyNum);
+            }
+            console.log(this.usedkeys);
+            
+            
             if(keyName.includes('REC')){
                 recordkeyname =keyName.replace('REC','');
             }
-            else if(keyName){
+            else if(keyName.includes('NOTES')){
                 noteskeyname= keyName.replace('NOTES','')
             }
-            console.log(keyName,'keynanme');
+            
+            if(this.usedkeys.includes(this.setValues[i].textContent)){
+                console.log(this.usedkeys);
             
             if ((this.exerciseName.textContent == keyName || this.exerciseName.textContent==recordkeyname || this.exerciseName.textContent==noteskeyname) && keyNum == this.setValues[i].textContent)
                 // maybe loop through local storage for all the ones keys with tri in it 
                 {
+                    
+                        
 
+                    
+                    
                     this.match =true;
+                    
+
                     if (key.includes('REC')){
-                        console.log('REC');
+                        
                         this.displayTextContent(record,key,this.match)//adds the record text cotent 
-                        continue;
+                        
+                        
                     }
                     // use the keynum to match with correct set 
                    
@@ -271,30 +294,30 @@ class Exercise{
                     
                     
                     else if(key.includes('NOTES')){
-                        console.log('notes')
+                        
                         
                         this.displayTextContent(notesInput,key,this.match)
+                        
                     }
                     else{
                         this.displayTextContent(previous,key,this.match)
                         
+                        
                     }
-                   
-                    
-                    // need to make sure it only changes if it gets beaten
                 
                     
-                    
                 
-                    
-                }
+            }
+                //try ti see if you can match the set with the key  number 
+        }
+            else  {
                 
-            else if (!this.match) {
+                this.displayTextContent(previous,key,false)
+                this.displayTextContent(record,key,false)
+                this.displayTextContent(notesInput,key,false)
                 
-                this.displayTextContent(previous,key,this.match)
-                this.displayTextContent(record,key,this.match)
-                continue;
                        
+                
                     
                     
                 }
@@ -387,9 +410,13 @@ class Exercise{
             }      
         else if(mode == 'record'){
             // assigns them the value to the starting record so it can be used to change it later 
-            this.startingcodeKg = !this.disabled ? this.getPreviousRecord('prev') : this.startingcodeKg;
-            this.startingcodeRep = !this.disabled ? this.getPreviousRecord('record') : this.startingcodeRep;
-            this.recCode = this.exerciseName.textContent + set + 'REC';
+           
+                this.startingcodeKg = !this.disabled ? this.getPreviousRecord('prev') : this.startingcodeKg;
+                this.startingcodeRep = !this.disabled ? this.getPreviousRecord('record') : this.startingcodeRep;
+                this.recCode = this.exerciseName.textContent + set + 'REC';
+            
+            
+            
             let repCode;
             //get the starting code kg part
 
@@ -398,13 +425,17 @@ class Exercise{
                 repCode =this.startingcodeRep.split('x')[0];
             }
             
-            console.log(repCode,rep);
+            let kgCode;
+            let oldKg;
+            if (this.startingcodeKg){
+                kgCode = this.startingcodeKg.split('x')[1];
             
-            let kgCode = this.startingcodeKg.split('x')[1];
+           
             
-            let oldKg =this.numberCheck(kgCode);
+                oldKg =this.numberCheck(kgCode);
+            }
             //checks to see if the previous code has been beaten and if it has will be updated 
-            
+        
             if(rep && kg && rep >0){
                 
                 if(kg >= oldKg || rep >= repCode){
@@ -413,8 +444,9 @@ class Exercise{
                     
                 }
                
-               
+            
             }
+            
         }
         
         
@@ -444,9 +476,13 @@ class Exercise{
             text.textContent =this.sortedLocal[key];
             
         }
+        else if(text.type == 'textarea'){
+            text.textContent ='';
+        }
         else{
             text.textContent = '-';
         }
+        
     }
     
     numberCheck(string){
