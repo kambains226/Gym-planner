@@ -12,6 +12,7 @@
 // class that creates the tables 
 
 class Exercise{
+    static exerciseCount = 0;
     constructor(setNum){
 
         this.num = setNum
@@ -26,6 +27,11 @@ class Exercise{
         this.addDiv = document.querySelector(".workout");
         this.parentOfAddDiv = this.addDiv.parentElement;
         this.usedkeys = [];
+        
+        // keeps track of how many exercises there are 
+        
+        Exercise.exerciseCount =Exercise.exerciseCount || 0;   
+        
     }
 
     exercise(){
@@ -50,7 +56,7 @@ class Exercise{
                 this.exerciseLabel = document.createElement("label");
                 this.exerciseLabel.textContent = this.exerciseName.value;
                 
-                this.parentOfAddDiv.insertBefore(this.addDiv); //gets  the parent of add div and buts the workoutlayout before that element
+                this.parentOfAddDiv.insertBefore(this.workoutLayout,this.addDiv); //gets  the parent of add div and buts the workoutlayout before that element
                 this.exerciseLabel.classList.add("exerciseLabel");
                 this.workoutLayout.appendChild(this.exerciseLabel);
                 
@@ -146,8 +152,18 @@ class Exercise{
     }
     exerciseTable() 
             {
-                this.exerciseName = document.querySelector('.exerciseLabel');
-                console.log(this.exerciseName.textContent);
+                let exerciseCount;
+                this.exerciseName = document.querySelectorAll('.exerciseLabel');
+                
+                
+                
+                exerciseCount=Exercise.setExerciseCount();
+                
+                
+                console.log(exerciseCount); /// USES THIS TO SET THE VALUES OF THE TABLE
+               
+               
+                // console.log(this.exerciseName[exerciseCount].textContent);
                 this.table.classList.add("information");
                 const HtableRow = document.createElement("tr");//the plus button will add a row minuts wil delete if there is information
             
@@ -180,7 +196,7 @@ class Exercise{
         
                 this.workoutLayout.appendChild(this.table);
         
-        
+               
             } 
 
     addRow(button){
@@ -539,6 +555,13 @@ class Exercise{
         }
         
         
+    }
+    static getExerciseCount() {
+        return Exercise.exerciseCount;
+    }
+    static setExerciseCount(){
+        
+        return Exercise.exerciseCount++;
     }
 }
 
