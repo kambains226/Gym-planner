@@ -5,8 +5,7 @@
 
 
 
-const addDiv = document.querySelector(".workout");
-const parentOfAddDiv = addDiv.parentElement;
+
  //table for information
 
 
@@ -24,45 +23,48 @@ class Exercise{
         this.match= false;
         this.disabled= false;
         this.startingcode=0;
-
+        this.addDiv = document.querySelector(".workout");
+        this.parentOfAddDiv = this.addDiv.parentElement;
         this.usedkeys = [];
     }
 
     exercise(){
-        const table = document.createElement("table");
-        const workoutLayout = document.createElement("div");
-        workoutLayout.classList.add("workoutLayout");
+        this.table = document.createElement("table");
+        this.workoutLayout = document.createElement("div");
+        this.workoutLayout.classList.add("workoutLayout");
         workoutButton.disabled = true;
-        let exerciseName=document.createElement("textarea");
-        exerciseName.maxLength = 20;
-        exerciseName.placeholder = "Enter exercise";
-        exerciseName.classList.add("exerciseName");
-        document.body.appendChild(exerciseName);
+        this.exerciseName=document.createElement("textarea");
+        this.exerciseName.maxLength = 20;
+        this.exerciseName.placeholder = "Enter exercise";
+        this.exerciseName.classList.add("exerciseName");
+        document.body.appendChild(this.exerciseName);
+       
+        
         //create exercise to add 
-        exerciseName.addEventListener('keypress', (event) =>{
+        this.exerciseName.addEventListener('keypress', (event) =>{
             //occurs when the user pressses enter 
             if (event.key === "Enter"){
 
-                exerciseName.style.display = "none"; // makes the text area disappear
+                this.exerciseName.style.display = "none"; // makes the text area disappear
                 //creates a lable of the exercise name 
-                let exerciseLabel = document.createElement("label");
-                exerciseLabel.textContent = exerciseName.value;
+                this.exerciseLabel = document.createElement("label");
+                this.exerciseLabel.textContent = this.exerciseName.value;
                 
-                parentOfAddDiv.insertBefore(workoutLayout,addDiv); //gets  the parent of add div and buts the workoutlayout before that element
-                exerciseLabel.classList.add("exerciseLabel");
-                workoutLayout.appendChild(exerciseLabel);
+                this.parentOfAddDiv.insertBefore(this.addDiv); //gets  the parent of add div and buts the workoutlayout before that element
+                this.exerciseLabel.classList.add("exerciseLabel");
+                this.workoutLayout.appendChild(this.exerciseLabel);
                 
-                this.exerciseTable(table,workoutLayout); // creates the table of exercise
+                this.exerciseTable(); // creates the table of exercise
                 const minusButton = document.createElement("button"); // creates the minus button
 
                 
                 //creates the table of infomration
                 for (let i = 0; i < 3; i++){
-                    this.addRow(table,minusButton,this.num); 
+                    this.addRow(minusButton,this.num); 
                 }
-                this.addButton(table,workoutLayout,minusButton);
+                this.addButton(minusButton);
                 
-                this.removeButton(table,workoutLayout,minusButton);
+                this.removeButton(minusButton);
                 workoutButton.disabled = false;
                 
             
@@ -74,7 +76,7 @@ class Exercise{
         
     });
     }
-    addButton(table,layout,button){
+    addButton(button){
        
         const addDiv = document.createElement("div");
         addDiv.classList.add("add");
@@ -91,13 +93,13 @@ class Exercise{
         addDiv.appendChild(line1);
         addDiv.appendChild(line2);
 
-        layout.appendChild(addDiv);
+        this.workoutLayout.appendChild(addDiv);
 
         addButton.addEventListener("click", () => {
-            this.addRow(table, button, this.num);
+            this.addRow( button, this.num);
         });
 }
-    removeButton(table,layout,button){
+    removeButton(button){
        
         const minusDiv = document.createElement("div");
         minusDiv.classList.add("minus");
@@ -113,14 +115,14 @@ class Exercise{
         minusDiv.appendChild(button);
         minusDiv.appendChild(line1);
      
-        layout.appendChild(minusDiv);
+        this.workoutLayout.appendChild(minusDiv);
         
         button.addEventListener("click",() =>{
             // let table =document.querySelector(".information");
-            let lastrow = table.querySelector("tr:last-child");
+            let lastrow = this.table.querySelector("tr:last-child");
     
             try{
-                table.removeChild(lastrow);
+                this.table.removeChild(lastrow);
                 console.log(this.num);
                 this.num--;
                 
@@ -142,16 +144,17 @@ class Exercise{
         });
     
     }
-    exerciseTable(table,layout) 
+    exerciseTable() 
             {
-                
-                table.classList.add("information");
+                this.exerciseName = document.querySelector('.exerciseLabel');
+                console.log(this.exerciseName.textContent);
+                this.table.classList.add("information");
                 const HtableRow = document.createElement("tr");//the plus button will add a row minuts wil delete if there is information
             
                 
                 
-                table.appendChild(HtableRow);
-                layout.appendChild(table);
+                this.table.appendChild(HtableRow);
+                this.workoutLayout.appendChild(this.table);
                 //adds the default rows to the table
                 const sets = document.createElement("th");
                 const reps =document.createElement("th");
@@ -175,12 +178,12 @@ class Exercise{
                 HtableRow.appendChild(record);
                 HtableRow.appendChild(notes);
         
-                layout.appendChild(table);
+                this.workoutLayout.appendChild(this.table);
         
         
             } 
 
-    addRow(table,button){
+    addRow(button){
         this.num++;
         this.match = false;
         this.preCode; // gets the kg weight from local storage
@@ -194,7 +197,7 @@ class Exercise{
         const record = document.createElement("td");
         const notes = document.createElement("td");
         
-        this.exerciseName = document.querySelector('.exerciseLabel');
+        
         sets.textContent = this.num ;
         
         // if statment to put the previous and record in place 
@@ -225,7 +228,7 @@ class Exercise{
         tableRow.appendChild(record);
         tableRow.appendChild(notes);
         
-        table.appendChild(tableRow);
+        this.table.appendChild(tableRow);
         this.setValues = document.querySelectorAll('.sets'); // gets all the set values
         let key;
         //will need use this to make it so other exercies work 
@@ -252,12 +255,12 @@ class Exercise{
 
             let keyNum = keyNumMatch ? keyNumMatch.join('') : null; //number in the key for local storage to match the set num 
             
-            console.log(keyNum);
-            console.log(this.exerciseName.textContent);
+           
+            // console.log(this.exerciseName.textContent);
             if (!this.usedkeys.includes(keyNum) && (this.exerciseName.textContent == keyName || this.exerciseName.textContent==recordkeyname || this.exerciseName.textContent==noteskeyname)) {
                 this.usedkeys.push(keyNum);
             }
-            console.log(this.usedkeys);
+            
             
             
             if(keyName.includes('REC')){
@@ -268,7 +271,7 @@ class Exercise{
             }
             
             if(this.usedkeys.includes(this.setValues[i].textContent)){
-                console.log(this.usedkeys);
+                
             
             if ((this.exerciseName.textContent == keyName || this.exerciseName.textContent==recordkeyname || this.exerciseName.textContent==noteskeyname) && keyNum == this.setValues[i].textContent)
                 // maybe loop through local storage for all the ones keys with tri in it 
@@ -415,16 +418,22 @@ class Exercise{
                 this.startingcodeRep = !this.disabled ? this.getPreviousRecord('record') : this.startingcodeRep;
                 this.recCode = this.exerciseName.textContent + set + 'REC';
             
-            
+                if(this.startingcodeKg==undefined && this.startingcodeRep ==undefined ){
+                    
+                    this.startingcodeKg='0'+'x'+'0'+'kg'
+                    this.startingcodeRep='0'+'x'+'0'+'kg' // scores arent gettind displayed  
+                }
             
             let repCode;
+            
+
             //get the starting code kg part
 
-            
+            console.log(this.startingcodeRep);
             if(this.startingcodeRep){
                 repCode =this.startingcodeRep.split('x')[0];
             }
-            
+            console.log(repCode);
             let kgCode;
             let oldKg;
             if (this.startingcodeKg){
@@ -434,6 +443,7 @@ class Exercise{
             
                 oldKg =this.numberCheck(kgCode);
             }
+            console.log(repCode,kgCode);
             //checks to see if the previous code has been beaten and if it has will be updated 
         
             if(rep && kg && rep >0){
@@ -455,13 +465,13 @@ class Exercise{
         
         
         if(mode== 'prev'){
-            console.log(this.sortedLocal[this.preCode])
-            return this.sortedLocal[this.preCode];
+           
+            return this.sortedLocal[this.preCode] ;
         }
         else if(mode== 'record'){
             
            
-            return this.sortedLocal[this.recCode];
+        return this.sortedLocal[this.recCode] ;
 
             
         }
@@ -539,7 +549,7 @@ const workoutButton = document.querySelector("#exercise");
 
 
 workoutButton.addEventListener("click", function(){
-let exercise = new Exercise(0);
+    let exercise = new Exercise(0);
 exercise.exercise();
 
 });
