@@ -161,7 +161,8 @@ class Exercise{
                 
                 
                 
-                console.log(this.exerciseName[exerciseCount].textContent); /// USES THIS TO SET THE VALUES OF THE TABLE
+                
+                 /// USES THIS TO SET THE VALUES OF THE TABLE
                
                
                 // console.log(this.exerciseName[exerciseCount].textContent);
