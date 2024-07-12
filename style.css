@@ -4,8 +4,10 @@
 }
 :root{
     --heading-font:  "Permanent Marker", cursive;
-    --background-colour: #A9DEF9;
-    --button-colour: #E4C1F9;
+    --background-colour: linear-gradient(to right,#3c424d ,#3869be);
+    
+    /* --button-colour: #E4C1F9; */
+    --button-colour:linear-gradient(to right,#E4C1F9 ,#bf6bf0);
     --button-font: "Sen", sans-serif;
     --plus-colour: #384152;
     --add-colour:#D0F4DE;
@@ -16,10 +18,15 @@
     --border :2px solid black;
     --label-background: #FCF6BD;
 }
+/* .righteous-regular {
+    font-family: "Righteous", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  } */
 
 /* colour palette  link https://coolors.co/ff99c8-fcf6bd-d0f4de-a9def9-e4c1f9 */
 body {
-    background-color: var(--background-colour);
+    background: var(--background-colour);
 }
 
 
@@ -141,7 +148,7 @@ button{
     /* border-radius: 45%; */
     height: 4em;
     width: 15em;
-    background-color: var(--button-colour);
+    background: var(--button-colour);
     font-family: var(--button-font);
     font-size: 1.2em;
 
@@ -171,14 +178,14 @@ button{
     
 }
 .add button{
-    background-color: var(--add-colour);
+    background: var(--add-colour) !important;
     
 }
 .minus button{
-    background-color: var(--minus-colour);
+    background: var(--minus-colour) !important;
 }
 .minus button:disabled{
-    background-color: var(--disabled-colour);
+    background: var(--disabled-colour) !important;
 }
 .line1  {
     position: absolute;
