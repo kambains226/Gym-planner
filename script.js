@@ -38,6 +38,7 @@ class Exercise{
         this.table = document.createElement("table");
         this.workoutLayout = document.createElement("div");
         this.workoutLayout.classList.add("workoutLayout");
+        this.Close();
         workoutButton.disabled = true;
         this.exerciseName=document.createElement("textarea");
         this.exerciseName.maxLength = 20;
@@ -46,7 +47,7 @@ class Exercise{
         document.body.appendChild(this.exerciseName);
         
         let exerciseCount=Exercise.setExerciseCount();; //keeps  count of how many exercises there are
-        
+       
         //create exercise to add 
         this.exerciseName.addEventListener('keypress', (event) =>{
             //occurs when the user pressses enter 
@@ -82,6 +83,22 @@ class Exercise{
         
         
     });
+    }
+    Close(){
+        this.Xdiv =document.createElement("div");
+        this.workoutLayout.appendChild(this.Xdiv);
+        this.Xdiv.classList.add("xDiv");
+        this.xline1 = document.createElement("span");
+        this.xline2 = document.createElement("span");
+        this.xline1.classList.add("cross");
+        this.xline2.classList.add("cross2");
+
+        this.Xdiv.appendChild(this.xline1);
+        this.Xdiv.appendChild(this.xline2);
+        this.Xdiv.addEventListener("click",() =>{
+            this.workoutLayout.style.display = "none";
+            
+        });
     }
     addButton(button,count){
        
@@ -161,8 +178,9 @@ class Exercise{
                 
                 
                 
-                
+  
                  /// USES THIS TO SET THE VALUES OF THE TABLE
+
                
                
                 // console.log(this.exerciseName[exerciseCount].textContent);
@@ -202,7 +220,7 @@ class Exercise{
             } 
 
     addRow(button,count){
-        console.log(count);
+        
         this.num++;
         this.match = false;
         this.preCode; // gets the kg weight from local storage
@@ -276,7 +294,7 @@ class Exercise{
             
            
             // console.log(this.exerciseName.textContent);
-            console.log(count);
+            
             if (!this.usedkeys.includes(keyNum) && (this.exerciseName[count].textContent == keyName || this.exerciseName[count].textContent==recordkeyname || this.exerciseName[count].textContent==noteskeyname)) {
                 this.usedkeys.push(keyNum);
             }
@@ -422,7 +440,7 @@ class Exercise{
             
             
                     // kgs[i].id=kgcode; //sets the kg input boxes an id 
-                    if(kg && rep){
+                    if(kg >0 && rep >0){
                         localStorage.setItem(this.preCode,rep+'x'+kg+'kg');
                         
                     }
@@ -466,11 +484,11 @@ class Exercise{
             
             //checks to see if the previous code has been beaten and if it has will be updated 
         
-            if(rep && kg && rep >0){
+            if(rep && kg && rep >0 && kg >0){
                 
                 if(kg >= oldKg || rep >= repCode){
                     localStorage.setItem(this.recCode,rep+'x'+kg+'kg');
-                    console.log(localStorage.getItem(this.recCode));
+                    
                     
                 }
                

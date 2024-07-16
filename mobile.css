@@ -1,0 +1,34 @@
+/* the table needs to change to fit on the screen */
+
+body{
+    max-width: 100vw;
+}
+.workoutLayout{
+    width: 100vw ;
+}
+
+table{
+    border-spacing: 1px;
+    /* display: none; */
+}
+td input[type="number"]{
+    width: 2em;
+    height: 2em;
+}
+.information tr th{
+    padding: 1em;
+    padding-top: 3em;
+    font-size: 0.8em;
+}
+
+.notes{
+    width: 5em;
+    height: 5em;
+    
+}
+.xDiv{
+    left: 95vw;
+}
+.exerciseLabel{
+    margin-top: 0;
+}
