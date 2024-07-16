@@ -2,9 +2,12 @@
 
 body{
     max-width: 100vw;
+    overflow-x: hidden;
 }
 .workoutLayout{
     width: 100vw ;
+    max-width: 100%;
+    height: auto;
 }
 
 table{
@@ -22,8 +25,8 @@ td input[type="number"]{
 }
 
 .notes{
-    width: 5em;
-    height: 5em;
+    width: 4em;
+    height: 4em;
     
 }
 .xDiv{
