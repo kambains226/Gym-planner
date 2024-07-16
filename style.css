@@ -3,11 +3,13 @@
     margin: 0;
 }
 :root{
-    --heading-font:  "Permanent Marker", cursive;
+    --heading-font:  "Margarine", sans-serif;
+
     --background-colour: linear-gradient(to right,#3c424d ,#3869be);
     
     /* --button-colour: #E4C1F9; */
     --button-colour:linear-gradient(to right,#E4C1F9 ,#bf6bf0);
+    --text-gradient: linear-gradient(to left,#3c424d ,#3869be);
     --button-font: "Sen", sans-serif;
     --plus-colour: #384152;
     --add-colour:#D0F4DE;
@@ -17,12 +19,9 @@
     --textarea-colour: #a8aaad2c;
     --border :2px solid black;
     --label-background: #FCF6BD;
+    --x-colour: black;
 }
-/* .righteous-regular {
-    font-family: "Righteous", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-  } */
+
 
 /* colour palette  link https://coolors.co/ff99c8-fcf6bd-d0f4de-a9def9-e4c1f9 */
 body {
@@ -38,6 +37,9 @@ h2{
     font-size: 3em;
     font-family: var(--heading-font);
     padding-bottom: 2em;
+    background: var(--text-gradient);
+    -webkit-background-clip:text;
+
 }
 .workout{
     position: relative;
@@ -207,3 +209,31 @@ button{
     left: 50%;
    
 }
+.xDiv{
+    position: absolute;
+    top: 1em;
+    left: 43em;
+    
+}
+
+.cross{
+    position: absolute;
+    width: .1em;
+    height: 2.5em;
+    background-color: var(--x-colour);
+    top:50% ;
+    transform: rotate(-45deg) ;
+    left: 50%;
+    cursor: pointer !important;
+}
+.cross2{
+    position: absolute;
+    width: .1em;
+    height: 2.5em;
+    background-color: var(--x-colour);
+    transform: rotate(45deg);
+    top: 50%;
+    left: 50%;
+    cursor: pointer !important;
+}
+
