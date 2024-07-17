@@ -452,41 +452,46 @@ class Exercise{
         else if(mode == 'record'){
             // assigns them the value to the starting record so it can be used to change it later 
            
-                this.startingcodeKg = !this.disabled ? this.getPreviousRecord('prev') : this.startingcodeKg;
-                this.startingcodeRep = !this.disabled ? this.getPreviousRecord('record') : this.startingcodeRep;
+                this.startingcodePrev = !this.disabled ? this.getPreviousRecord('prev') : this.startingcodePrev; // used for when an exercise doesnt have any data
+                this.startingcodeRec = !this.disabled ? this.getPreviousRecord('record') : this.startingcodeRec; // used to know if a record has been beaten
                 this.recCode = this.exerciseName[count].textContent + set + 'REC';
-            
-                if(this.startingcodeKg==undefined && this.startingcodeRep ==undefined ){
+                
+                if(this.startingcodePrev==undefined && this.startingcodeRec ==undefined ){
                     
-                    this.startingcodeKg='0'+'x'+'0'+'kg'
-                    this.startingcodeRep='0'+'x'+'0'+'kg' // scores arent gettind displayed  
+                    this.startingcodePrev='0'+'x'+'0'+'kg'
+                    this.startingcodeRec='0'+'x'+'0'+'kg' // scores arent gettind displayed  
                 }
             
             let repCode;
-            
+            let recKg;
+            let kgCode;
 
             //get the starting code kg part
 
             
-            if(this.startingcodeRep){
-                repCode =this.startingcodeRep.split('x')[0];
+            if(this.startingcodeRec){
+                repCode =this.startingcodeRec.split('x')[0];
+                recKg =this.startingcodeRec.split('x')[1];
+                recKg = this.numberCheck(recKg);
+
+                
             }
-            
-            let kgCode;
-            let oldKg;
-            if (this.startingcodeKg){
-                kgCode = this.startingcodeKg.split('x')[1];
             
            
             
-                oldKg =this.numberCheck(kgCode);
+            if (this.startingcodePrev){
+                kgCode = this.startingcodePrev.split('x')[1];
+                
             }
             
             //checks to see if the previous code has been beaten and if it has will be updated 
-        
+            
             if(rep && kg && rep >0 && kg >0){
-                
-                if(kg >= oldKg || rep >= repCode){
+                let intKg = +kg;
+                let intRecKg = +recKg; // used to corvert the kg into an int
+               
+                if((intKg >= intRecKg) ){
+                    
                     localStorage.setItem(this.recCode,rep+'x'+kg+'kg');
                     
                     
@@ -535,16 +540,22 @@ class Exercise{
     
     numberCheck(string){
         let kgCheck='';
+        
         for (let i = 0; i < string.length; i++){
             if (isNaN(string[i])){
+                
                 break;
                 
             }
             else{
+                
                 kgCheck += string[i];
-                return kgCheck;
+                
+                
             }
         }
+        
+        return kgCheck;
         
     }
     notesUpdate(set,note,count){

@@ -32,6 +32,10 @@ td input[type="number"]{
 .xDiv{
     top: 0;
     left: 95vw;
+    
+}
+.cross ,.cross2{
+    height: 1.5em;
 }
 .exerciseLabel{
     margin-top: 0;
